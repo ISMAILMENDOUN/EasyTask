@@ -1,6 +1,8 @@
 
 <?php 
 include '../controller/taskController.php';
+include '../controller/userController.php';
+include '../controller/user_taskController.php';
 ?>
 <hml>
 
@@ -72,9 +74,6 @@ Statut:<br><select name='statut'>
 <br><br>
     <input class='rounded btn-success' type='submit' name='addTask' value='Add_TASK' ></form>";
     $justDisplay="";}
-
-
-
     if(isset($_POST['displayTasks'])){echo'<section class="allTasks">
                 <h1 class="d-flex justify-content-center">All Tasks</h1>
                 <table class="table table-dark">
@@ -89,13 +88,15 @@ Statut:<br><select name='statut'>
                             <th scope="col">STATUT</th>
                             <th scope="col">EDIT</th>
                             <th scope="col">DELETE</th>
+                            <th scope="col">ASSIGN_TO:</th>
                         </tr>
                     </thead>
                     <tbody>';
+                    
                     while($row=mysqli_fetch_array($result)){
-                        echo'<tr>
+                        echo'<form id="myForm" action="admin.php" method="POST"><tr>
                             <th id="d0" scope="row">'.$row[0].'</th>
-                            <td id="d1">'.$row[1].'</td>
+                            <td id="d1" name="d1">'.$row[1].'</td>
                             <td id="d2">'.$row[2].'</td>
                             <td id="d3">'.$row[3].'</td>
                             <td id="d4">'.$row[4].'</td>
@@ -103,7 +104,28 @@ Statut:<br><select name='statut'>
                             <td id="d6">'.$row[6].'</td>
                             <td><a id="d7" class="text-success" href="#" onclick="editContent(this)"><i class="fa-solid fa-pen-to-square"></i></a></td>
                             <td><a class="text-danger"href="admin.php?delete='.$row[0].'"><i class="fa fa-trash"></i></a></td>
-                        </tr>';}
+                            <td>';
+                            $uT=getAssignment($row[0]);
+                            if(isset($uT)){
+                                echo $uT[1].'(ID:'.$uT[0].')';
+                            }
+                            else{
+                            echo'<select name="idUserA"class="bg-dark text-light rounded">';
+                            mysqli_data_seek($user, 0);
+                            echo'<option selected>No One</option>';
+                            while($row1=mysqli_fetch_array($user)){
+                            echo'<option>'.$row1[1].'(ID:'.$row1[0].')</option> ';
+                            }
+                                echo'</select>&nbsp<input class="bg-dark text-light border-light hover-success rounded "
+                                 type="submit" value="assign"><input name="idTaskA" type="hidden" value="'.$row[0].'">';}
+                                 echo'</form>';
+                        
+                                echo'</td>
+                        </tr>';
+                    $uT=null;
+                    
+                    
+                    }
                         echo'
                     </tbody>
                 </table>
@@ -112,32 +134,24 @@ Statut:<br><select name='statut'>
                 <h1 class="d-flex justify-content-center">All Tasks</h1>
                 <table class="table table-dark">
                     <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                       <tr>
+                            <th scope="col">ID_USER</th>
+                            <th scope="col">FIRST_NAME</th>
+                            <th scope="col">LAST_NAME</th>
+                            <th scope="col">EMAIL</th>
+                            <th scope="col">PASSWORD</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                    <tbody>';
+                    while($row=mysqli_fetch_array($user)){
+                        echo'<tr>
+                            <th scope="row">'.$row[0].'</th>
+                            <td>'.$row[1].'</td>
+                            <td>'.$row[2].'</td>
+                            <td>'.$row[3].'</td>
+                            <td>'.$row[4].'</td>
+                        </tr>';}
+                        echo'
                     </tbody>
                 </table>
             </section>';}
@@ -153,6 +167,19 @@ Statut:<br><select name='statut'>
 
               ;
         </div>
+
+        <form id="formToSubmit"action="admin.php" method="POST">
+
+        <input id="updateD0" name="updateD0" type="hidden">
+        <input id="updateD1" name="updateD1" type="hidden">
+        <input id="updateD2" name="updateD2" type="hidden">
+        <input id="updateD3" name="updateD3" type="hidden">
+        <input id="updateD4" name="updateD4" type="hidden">
+        <input id="updateD5" name="updateD5" type="hidden">
+        <input id="updateD6" name="updateD6" type="hidden">
+        <input id="updateD7" name="updateD7" type="hidden">
+        
+        </form>
         <script type="text/javascript" src="script.js"></script>
     </body>
 

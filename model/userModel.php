@@ -3,7 +3,7 @@ require_once 'db_config.php';
 
 
 class register{
-
+private $idUser;
 private $firstName;
 private $lastName;
 private $email;
@@ -17,7 +17,17 @@ $this->password=$password;
 $this->email=$email;
 
 }
+public static function createWithZeroParams() {
+    return new self('', '', '', '');
+}
 
+public function allUsers(){
+
+    $con=new Connection("localhost","root","","tasks");
+    $con=$con->connect();
+    $users=mysqli_query($con,"select * from user ");
+   return $users;
+}
 public function register(){
 
 $con=new Connection("localhost","root","","tasks");

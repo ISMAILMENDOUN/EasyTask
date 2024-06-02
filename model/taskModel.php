@@ -18,7 +18,13 @@ public function __construct($name,$category,$priority,$startDate,$endDate,$statu
     $this->statut=$statut;
 }
 
+public static function createWithSevenParams($idTask,$name,$category,$priority,$startDate,$endDate,$statut){
+    $task = new Task($name, $category, $priority, $startDate, $endDate, $statut);
+        $task->idTask = $idTask;
+        return $task;
 
+
+}
 public function setTask(){
 $con=new Connection("localhost","root","","tasks");
 $con=$con->connect();
@@ -28,7 +34,7 @@ mysqli_query($con,"insert into task(name,category,priority,startDate,endDate,sta
 public function updateTask($idTask){
     $con=new Connection("localhost","root","","tasks");
     $con=$con->connect();
-    mysqli_query($con,"set name='$this->name',category= '$this->category',priority='$this->priority',startDate='$this->startDate',endDate='$this->endDate',statut='$this->statut'");
+    mysqli_query($con," update task set name='$this->name',category= '$this->category',priority='$this->priority',startDate='$this->startDate',endDate='$this->endDate',statut='$this->statut' where idTask=$idTask");
 
 }
 
@@ -56,6 +62,15 @@ class DisplayTasks{
     
     }
 
+    public function displayAtask($name){
+
+
+        $con=new Connection("localhost","root","","tasks");
+        $con=$con->connect();
+        $mTask=mysqli_query($con,"select * from task where name='$name'");
+       return $mTask;
+    
+    }
 }
 
 class DeleteTask{
@@ -69,4 +84,5 @@ class DeleteTask{
     }
     
 }
+
 ?>
