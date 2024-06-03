@@ -3,7 +3,7 @@ require_once '../model/userModel.php';
 require_once '../model/userModel.php';
 /****************************************HANDLE REGISTRATION**************************************** */
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_REFERER']) && ($_SERVER['HTTP_REFERER'] === "http://localhost:8080/easytask/view/"||$_SERVER['HTTP_REFERER'] === "http://localhost:8080/easytask/view/index.php")) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_REFERER']) && ($_SERVER['HTTP_REFERER'] === "http://localhost:8080/easytask/view/"||$_SERVER['HTTP_REFERER'] === "http://localhost:8080/easytask/view/index.php")&&isset($_POST['confirm_password'])) {
 var_dump($_SERVER['HTTP_REFERER']);
 if(isset($_POST['first_name'])&&isset($_POST['last_name'])&&isset($_POST['email'])&&isset($_POST['password'])&&isset($_POST['confirm_password'])&&$_POST['first_name']!=""&&$_POST['last_name']!=""&&$_POST['email']!=""&&$_POST['password']!=""&&$_POST['confirm_password']!=""){
 if($_POST['password']==$_POST['confirm_password']){

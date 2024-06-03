@@ -69,6 +69,7 @@ class Login{
             $_SESSION['firstName']=$user[1];
             $_SESSION['lastName']=$user[2];
             $_SESSION['email']=$user[3];
+            $_SESSION['role']=$user[5];
            
             echo '<meta http-equiv="refresh" content="0;url=../view/user.php" />';
 }

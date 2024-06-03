@@ -22,12 +22,27 @@ if(isset($_POST['displayMyTasks'])){
     $myTasks=UserTask::createWithZeroParams();
     $myTasks=$myTasks->myTasks($_SESSION['idUser']);
     
+    
 }
+if(isset($_POST['byPriority'])){
+
+    $myTasks=UserTask::createWithZeroParams();
+    $myTasks=$myTasks->myTasksP($_SESSION['idUser']);
+    
+}
+if(isset($_POST['byGroup'])){
+
+    $myTasks=UserTask::createWithZeroParams();
+    $myTasks=$myTasks->myTasksG($_SESSION['idUser']);
+    
+}
+
 if(isset($_POST['taskDone'])){
     $idTask=$_POST['taskDone'];
     $myTasks=UserTask::createWithZeroParams();
     $myTasks=$myTasks->markAsDone($idTask);
     $_POST['displayMyTasks']=true;
+    $display="d";
 }
     }
 ?>

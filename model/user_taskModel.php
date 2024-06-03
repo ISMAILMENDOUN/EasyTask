@@ -45,6 +45,20 @@ public function myTasks($idUser){
     return $myTasks;
 
 }
+public function myTasksP($idUser){
+    $con=new Connection("localhost","root","","tasks");
+    $con=$con->connect();
+    $myTasks=mysqli_query($con,"SELECT task.idTask,task.name,category,priority,startDate,endDate,statut from user_task,task where idUser=$idUser and user_task.idTask=task.idTask order by priority");
+    return $myTasks;
+
+}
+public function myTasksG($idUser){
+    $con=new Connection("localhost","root","","tasks");
+    $con=$con->connect();
+    $myTasks=mysqli_query($con,"SELECT task.idTask,task.name,category,priority,startDate,endDate,statut from user_task,task where idUser=$idUser and user_task.idTask=task.idTask order by category");
+    return $myTasks;
+
+}
 public function markAsDone($idTask){
 
     $con=new Connection("localhost","root","","tasks");

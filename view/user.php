@@ -10,6 +10,10 @@ if(isset($_POST['logout'])){
 
     }
 session_start();
+if($_SESSION['role']=="admin"){
+
+    header('Location:admin.php'); 
+}
 require_once '../controller/taskController.php';
 require_once '../controller/user_taskController.php';
 ?>
@@ -89,13 +93,13 @@ require_once '../controller/user_taskController.php';
                     <form action="user.php" method="POST">
                         <div class="row">
                             <div class="col-12 col-md-3 mb-2">
-                                <input class="btn btn-warning btn-block rounded" type="submit" value="DISPLAY_USERS">
+                                <input name="displayMyTasks" class="btn btn-primary btn-block rounded" type="submit" value="DISPLAY_TASKS">
                             </div>
                             <div class="col-12 col-md-3 mb-2">
-                                <input name="displayMyTasks" class="btn btn-info btn-block rounded" type="submit" value="DISPLAY_TASKS">
+                                <input name="byPriority" class="btn btn-info btn-block rounded" type="submit" value="BY_PRIORITY">
                             </div>
                             <div class="col-12 col-md-3 mb-2">
-                                <input class="btn btn-dark btn-block rounded" type="submit" value="ADD_TASK">
+                                <input name="byGroup" class="btn btn-warning btn-block rounded" type="submit" value="BY_GROUP">
                             </div>
                             <div class="col-12 col-md-3 mb-2">
                                 <input name="logout" class="btn btn-danger btn-block rounded" type="submit" value="LOGOUT">
@@ -127,9 +131,14 @@ require_once '../controller/user_taskController.php';
                       <td id="d3">'.$mt[3].'</td>
                       <td id="d4">'.$mt[4].'</td>
                       <td id="d5">'.$mt[5].'</td>
-                      <td id="d6">'.$mt[6].'</td>
-                      <td class="px-5"id="d7"><input class="markDone" type="checkbox" onclick="check(this)" value='.$mt[0].'></td>
-                        </tr>';}?>
+                      <td id="d6">'.$mt[6].'</td>';
+                      if($mt[6]=="Done"){
+                        echo'<td class="px-5"id="d7"><i class="fa-solid fa-check"></i></td>
+                        </tr>';
+                      }
+                      else{
+                      echo'<td class="px-5"id="d7"><input class="markDone" type="checkbox" onclick="check(this)" value='.$mt[0].'></td>
+                        </tr>';}}?>
                         
                     </tbody>
                 </table>
